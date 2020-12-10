@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  mariadb:
+    image: 'docker.io/bitnami/mariadb:10.2-debian-10'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=my_user
+      - MARIADB_DATABASE=my_database
+      - MARIADB_PASSWORD=my_password
+    ports: 
+      - "3306:3306"
+    restart: "no"
+  app:
+    tty: true
+    image: towerhouse/docker-laravel:1.0
+    restart: "no"
+    environment:
+      - DB_HOST=mariadb
+      - DB_USERNAME=my_user
+      - DB_DATABASE=my_database
+      - DB_PASSWORD=my_password
+      - PHP_MEMORY_LIMIT=10240M
+    depends_on:
+      - mariadb
+    ports:
+      - "80:80"
+      - "443:443"
+    extra_hosts: 
+      - "api.lightboxsearch.loc:127.0.0.1"
+    volumes:
+      - ./:/app
+    privileged: true # Privileged mode could be required to run this container under Windows
