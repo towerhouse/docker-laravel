@@ -71,9 +71,14 @@ setup_db() {
   php artisan migrate --force
 }
 
-print_welcome_page
+enable_apache_and_vhost(){
+  log "Enabling virtual host"
+  sudo a2ensite lightbox-api
+  sudo chmod -R 777 /app/storage /app/bootstrap/cache
+}
 
-if [ "${1}" == "php" -a "$2" == "artisan" -a "$3" == "serve" ]; then
+print_welcome_page
+if [ "${1}" == "sudo" -a "$2" == "apachectl" -a "$3" == "-D" -a "$4" == "FOREGROUND" ]; then
   if [[ ! -f /app/config/database.php ]]; then
     log "Creating laravel application"
     cp -a /tmp/app/. /app/
@@ -88,7 +93,9 @@ if [ "${1}" == "php" -a "$2" == "artisan" -a "$3" == "serve" ]; then
     log "Dependencies updated"
   fi
 
+  enable_apache_and_vhost
   wait_for_db
+  
 
   if [[ -f $INIT_SEM ]]; then
     echo "#########################################################################"

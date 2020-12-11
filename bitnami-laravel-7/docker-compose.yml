@@ -13,7 +13,7 @@ services:
     restart: "no"
   app:
     tty: true
-    image: towerhouse/docker-laravel:1.0
+    image: towerhouse/laravel-7:1.2
     restart: "no"
     environment:
       - DB_HOST=mariadb
