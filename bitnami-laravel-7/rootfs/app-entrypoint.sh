@@ -85,8 +85,9 @@ if [ "${1}" == "sudo" -a "$2" == "apachectl" -a "$3" == "-D" -a "$4" == "FOREGRO
   fi
 
   log "Installing/Updating Laravel dependencies (composer)"
-  if [[ ! -f composer.lock ]]; then
+  if [[ -f composer.lock ]]; then
     log "composer install"
+    log "IF YOU WANT TO RUN composer update DELETE composer.lock"
     COMPOSER_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-128M} composer install
     log "Dependencies installed"
   else
