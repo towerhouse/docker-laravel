@@ -77,6 +77,16 @@ enable_apache_and_vhost(){
   sudo chmod -R 777 /app/storage /app/bootstrap/cache
 }
 
+setting_up_supervisor(){
+  log "Configuring supervisor"
+  log "Copying config files"
+  log "cp -R /supervisor/local/. /etc/supervisor/"
+  cp -R /supervisor/local/. /etc/supervisor/
+  log "starting supervisor"
+  log "sudo supervisord -c /etc/supervisor/supervisord.conf"
+  sudo supervisord -c /etc/supervisor/supervisord.conf
+}
+
 print_welcome_page
 if [ "${1}" == "sudo" -a "$2" == "apachectl" -a "$3" == "-D" -a "$4" == "FOREGROUND" ]; then
   if [[ ! -f /app/config/database.php ]]; then
@@ -97,6 +107,7 @@ if [ "${1}" == "sudo" -a "$2" == "apachectl" -a "$3" == "-D" -a "$4" == "FOREGRO
   fi
 
   enable_apache_and_vhost
+  setting_up_supervisor
   wait_for_db
   
 
