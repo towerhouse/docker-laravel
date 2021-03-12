@@ -82,6 +82,17 @@ setting_up_supervisor(){
   log "Copying config files"
   log "cp -R /app/supervisor/local/* /etc/supervisor/"
   sudo cp -R /app/supervisor/local/* /etc/supervisor/
+  log "Checking if supervisor log folder exists"
+  if [[ ! -d /app/storage/logs/supervisor ]]; then
+    mkdir /app/storage/logs/supervisor;
+  fi
+  log "Configuring log folder"
+  if [[ -d /var/log/supervisor ]]; then
+    sudo rm -rf /var/log/supervisor;
+  fi
+  if [[ ! -f /var/log/supervisor ]]; then
+    sudo ln -s /app/storage/logs/supervisor /var/log/supervisor;
+  fi
   log "starting supervisor"
   log "sudo supervisord -c /etc/supervisor/supervisord.conf"
   sudo supervisord -c /etc/supervisor/supervisord.conf
