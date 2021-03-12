@@ -80,8 +80,8 @@ enable_apache_and_vhost(){
 setting_up_supervisor(){
   log "Configuring supervisor"
   log "Copying config files"
-  log "cp -R /supervisor/local/. /etc/supervisor/"
-  cp -R /supervisor/local/. /etc/supervisor/
+  log "cp -R /app/supervisor/local/* /etc/supervisor/"
+  sudo cp -R /app/supervisor/local/* /etc/supervisor/
   log "starting supervisor"
   log "sudo supervisord -c /etc/supervisor/supervisord.conf"
   sudo supervisord -c /etc/supervisor/supervisord.conf
