@@ -101,8 +101,9 @@ setting_up_supervisor(){
 copy_config_files(){
   log "Copying config files"
   log "Copying php.ini"
-  log "sudo cp /app/docker_config_files/php/php.ini /etc/php/7.3/apache2/php2.ini"
+  log "sudo cp /app/docker_config_files/php/php.ini /etc/php/7.3/apache2/php.ini"
   sudo cp /app/docker_config_files/php/php.ini /etc/php/7.3/apache2/php.ini
+  sudo chown www-data:www-data /etc/php/7.3/apache2/php.ini
 }
 
 print_welcome_page
