@@ -98,6 +98,13 @@ setting_up_supervisor(){
   sudo supervisord -c /etc/supervisor/supervisord.conf
 }
 
+copy_config_files(){
+  log "Copying config files"
+  log "Copying php.ini"
+  log "sudo cp /app/docker_config_files/php/php.ini /etc/php/7.3/apache2/php2.ini"
+  sudo cp /app/docker_config_files/php/php.ini /etc/php/7.3/apache2/php.ini
+}
+
 print_welcome_page
 if [ "${1}" == "sudo" -a "$2" == "apachectl" -a "$3" == "-D" -a "$4" == "FOREGROUND" ]; then
   if [[ ! -f /app/config/database.php ]]; then
@@ -117,6 +124,7 @@ if [ "${1}" == "sudo" -a "$2" == "apachectl" -a "$3" == "-D" -a "$4" == "FOREGRO
     log "Dependencies updated"
   fi
 
+  copy_config_files
   enable_apache_and_vhost
   setting_up_supervisor
   wait_for_db
